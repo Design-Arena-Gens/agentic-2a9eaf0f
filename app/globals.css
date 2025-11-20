@@ -1,0 +1,418 @@
+:root {
+  color-scheme: light;
+  font-family: "Baloo 2", "Comic Sans MS", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg-top: #ffe5ec;
+  --bg-bottom: #fdf6ec;
+  --primary: #ff6f91;
+  --secondary: #5ec2b7;
+  --accent: #fed170;
+  --text: #352c44;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  color: var(--text);
+}
+
+.app-shell {
+  width: min(1100px, 95vw);
+  padding: 3rem;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 30px 80px rgba(255, 134, 174, 0.35);
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-shell::before,
+.app-shell::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(0);
+  opacity: 0.15;
+}
+
+.app-shell::before {
+  width: 420px;
+  height: 420px;
+  background: var(--primary);
+  top: -180px;
+  left: -140px;
+}
+
+.app-shell::after {
+  width: 360px;
+  height: 360px;
+  background: var(--secondary);
+  bottom: -200px;
+  right: -120px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.title-block h1 {
+  font-size: clamp(2.75rem, 5vw, 3.5rem);
+  margin: 0;
+  color: var(--primary);
+  text-shadow: 0 8px 0 rgba(255, 111, 145, 0.2);
+}
+
+.title-block p {
+  margin: 1rem 0 2rem;
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.control-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.button {
+  border: none;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  padding: 0.9rem 1.8rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-weight: 600;
+  color: white;
+  background: var(--primary);
+  box-shadow: 0 16px 30px rgba(255, 111, 145, 0.25);
+}
+
+.button.secondary {
+  background: var(--secondary);
+  box-shadow: 0 16px 30px rgba(94, 194, 183, 0.25);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button:not(:disabled):hover {
+  transform: translateY(-3px);
+}
+
+.lyrics-card {
+  background: white;
+  border-radius: 24px;
+  padding: 1.75rem;
+  box-shadow: 0 20px 50px rgba(255, 135, 115, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.lyrics-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 231, 94, 0.1),
+    rgba(255, 111, 145, 0.08)
+  );
+  pointer-events: none;
+}
+
+.lyrics-card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  color: var(--secondary);
+}
+
+.lyrics-line {
+  font-size: 1.2rem;
+  margin: 0.6rem 0;
+  padding: 0.35rem 0.75rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.lyrics-line.active {
+  background: rgba(255, 209, 112, 0.25);
+  transform: translateX(8px);
+}
+
+.lyrics-line span {
+  display: inline-block;
+}
+
+.stage {
+  position: relative;
+  width: min(480px, 80vw);
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+}
+
+.stage-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.9), rgba(255, 231, 94, 0.3) 55%, rgba(255, 111, 145, 0.28));
+  box-shadow: inset 0 -20px 60px rgba(53, 44, 68, 0.12);
+  overflow: hidden;
+}
+
+.stage-floor {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 22%;
+  background: radial-gradient(circle at center, rgba(255, 209, 112, 0.7), rgba(255, 111, 145, 0.45));
+  filter: blur(20px);
+  opacity: 0.9;
+}
+
+.sparkle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  animation: sparkle 6s linear infinite;
+}
+
+@keyframes sparkle {
+  from {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-50px) scale(1.1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0) scale(0.8);
+    opacity: 0.4;
+  }
+}
+
+.character {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-top: 3.5rem;
+}
+
+.character svg {
+  width: 85%;
+  height: auto;
+}
+
+.scene-cloud {
+  position: absolute;
+  top: 12%;
+  width: 180px;
+  height: 90px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  filter: blur(0);
+  animation: cloudFloat 12s ease-in-out infinite;
+}
+
+.scene-cloud::after,
+.scene-cloud::before {
+  content: "";
+  position: absolute;
+  background: inherit;
+  width: 60%;
+  height: 60%;
+  border-radius: 999px;
+}
+
+.scene-cloud::before {
+  top: -40%;
+  left: 18%;
+}
+
+.scene-cloud::after {
+  bottom: -35%;
+  right: 14%;
+}
+
+.scene-cloud.secondary {
+  width: 140px;
+  height: 70px;
+  top: 18%;
+  right: 55px;
+  opacity: 0.9;
+  animation-delay: -3s;
+}
+
+@keyframes cloudFloat {
+  from {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(12px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.peekaboo-eyes {
+  animation: blink 6s infinite;
+  transform-origin: center;
+}
+
+@keyframes blink {
+  0%,
+  48%,
+  52%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.05);
+  }
+}
+
+.peekaboo-hands {
+  animation: peekaboo 5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes peekaboo {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-35px);
+  }
+}
+
+.mouth {
+  transform-origin: center;
+  animation: sing 2s ease-in-out infinite;
+}
+
+@keyframes sing {
+  0%,
+  100% {
+    transform: scaleY(0.9);
+  }
+  50% {
+    transform: scaleY(1.2);
+  }
+}
+
+.floating-note {
+  position: absolute;
+  font-size: 2.2rem;
+  color: rgba(82, 172, 161, 0.85);
+  animation: floatNote 6s ease-in-out infinite;
+}
+
+@keyframes floatNote {
+  from {
+    transform: translateY(0) rotate(-4deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-40px) rotate(6deg);
+  }
+  to {
+    transform: translateY(-60px) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+.note-two {
+  animation-delay: 1.8s;
+  color: rgba(255, 123, 145, 0.85);
+}
+
+.note-three {
+  animation-delay: 3.4s;
+  color: rgba(255, 209, 112, 0.9);
+}
+
+.timeline {
+  margin-top: 3rem;
+  background: white;
+  border-radius: 20px;
+  padding: 1.2rem;
+  box-shadow: inset 0 0 0 2px rgba(255, 209, 112, 0.4);
+}
+
+.timeline h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.1rem;
+  color: rgba(53, 44, 68, 0.7);
+}
+
+.timeline-track {
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 209, 112, 0.35);
+  overflow: hidden;
+}
+
+.timeline-progress {
+  position: absolute;
+  inset: 0;
+  width: var(--progress, 0%);
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    padding: 2.2rem;
+  }
+
+  .title-block h1 {
+    text-align: center;
+  }
+
+  .title-block p {
+    text-align: center;
+  }
+
+  .control-panel {
+    justify-content: center;
+  }
+
+  .lyrics-card {
+    padding: 1.35rem;
+  }
+}
